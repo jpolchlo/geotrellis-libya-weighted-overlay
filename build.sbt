@@ -27,7 +27,8 @@ lazy val commonSettings = Seq(
     "io.spray"          %% "spray-can"     % "1.3.3",
     "org.apache.hadoop"  % "hadoop-client" % "2.7.1",
     "org.locationtech.geotrellis" %% "geotrellis-spark" % Version.gtVersion,
-    "com.google.guava" % "guava" % "16.0.1"
+    "com.google.guava" % "guava" % "16.0.1",
+    "com.typesafe.akka" %% "akka-actor" % "2.3.9"
   ) map  { _ exclude("com.google.guava", "guava") },
   assemblyMergeStrategy in assembly := {
     case "reference.conf" => MergeStrategy.concat
