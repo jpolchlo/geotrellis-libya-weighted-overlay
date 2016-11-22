@@ -12,13 +12,13 @@ clean:
 rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
 
 ${SERVER_ASSEMBLY_JAR}: $(call rwildcard, server, *.scala) build.sbt
-	sbt "project server" assembly
+	./sbt "project server" assembly
 
 ingest:
 	rm -r data/catalog/attributes || true
 	rm -r data/catalog/conflict || true
 	rm -r data/catalog/pipeline || true
-	sbt "project etl" assembly
+	./sbt "project etl" assembly
 	spark-submit \
 		--class com.azavea.geotrellis.weighted.Ingest \
 		--master local[*] \
