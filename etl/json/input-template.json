@@ -3,8 +3,8 @@
     "name": "airstrikes",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/Air strikes.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/Air strikes.tif"
     },
     "cache": "NONE"
   },
@@ -12,8 +12,8 @@
     "name": "conflict",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/Conflict Areas.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/Conflict Areas.tif"
     },
     "cache": "NONE"
   },
@@ -21,8 +21,8 @@
     "name": "allies",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/ISIL Allies.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/ISIL Allies.tif"
     },
     "cache": "NONE"
   },
@@ -30,8 +30,8 @@
     "name": "pipeline",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/Distance to Oil Pipeline.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/Distance to Oil Pipeline.tif"
     },
     "cache": "NONE"
   },
@@ -39,8 +39,8 @@
     "name": "refineries",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/Oil Refinries.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/Oil Refinries.tif"
     },
     "cache": "NONE"
   },
@@ -48,8 +48,8 @@
     "name": "population",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/Population Centers.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/Population Centers.tif"
     },
     "cache": "NONE"
   },
@@ -57,8 +57,8 @@
     "name": "weapons",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/Weapons Routes.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/Weapons Routes.tif"
     },
     "cache": "NONE"
   },
@@ -66,8 +66,8 @@
     "name": "people",
     "format": "geotiff",
     "backend": {
-      "type": "hadoop",
-      "path": "file:${PWD}/data/rasters/People Routes.tif"
+      "type": "s3",
+      "path": "s3://geotrellis-test/demo/libya/rasters/People Routes.tif"
     },
     "cache": "NONE"
   }

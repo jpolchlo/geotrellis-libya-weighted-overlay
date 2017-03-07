@@ -1,7 +1,7 @@
 {
   "backend": {
-    "type": "file",
-    "path": "${PWD}/data/catalog"
+    "type": "s3",
+    "path": "s3://geotrellis-test/demo/libya/data/catalog"
   },
   "reprojectMethod": "buffered",
   "pyramid": true,
