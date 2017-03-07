@@ -24,6 +24,7 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "org.apache.spark"  %% "spark-core"    % "2.0.1",
     "org.apache.hadoop"  % "hadoop-client" % "2.7.1",
+    "com.amazonaws"        % "aws-java-sdk-s3" % "1.11.98",
     "com.google.guava" % "guava" % "16.0.1"
   ) map  { _ exclude("com.google.guava", "guava") },
   assemblyMergeStrategy in assembly := {

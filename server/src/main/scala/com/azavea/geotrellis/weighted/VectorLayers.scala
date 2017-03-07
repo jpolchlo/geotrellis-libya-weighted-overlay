@@ -149,10 +149,31 @@ object VectorLayers {
         bufferTile(tile, weight, d.toInt, buffered, rasterExtent)
     }
 
-  def read(fname: String): String =
-    scala.io.Source.fromFile(s"${Main.geoJsonPath}/$fname", "UTF-8")
-      .getLines
-      .mkString
+  def read(fname: String): String = {
+    val fullname = s"${Main.geoJsonPath}/$fname".trim
+    if (fullname.startsWith("s3://")) {
+      import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+      import com.amazonaws.services.s3.model.S3Object
+      import com.amazonaws.services.s3.{AmazonS3Client, AmazonS3URI}
+      import scala.io.{BufferedSource, Source}
+
+      val credentialsProvider = new DefaultAWSCredentialsProviderChain()
+      val s3Client = new AmazonS3Client(credentialsProvider)
+      val uri: AmazonS3URI = new AmazonS3URI(fullname)
+      val s3Object: S3Object = s3Client.getObject(uri.getBucket, uri.getKey)
+
+      val source: BufferedSource = Source.fromInputStream(s3Object.getObjectContent)
+      try {
+        source.mkString
+      } finally {
+        source.close()
+      }
+    } else {
+      scala.io.Source.fromFile(fullname, "UTF-8")
+        .getLines
+        .mkString
+    }
+  }
 
   lazy val libya: MultiPolygon =
     read("Libya_shape.geojson")

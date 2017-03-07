@@ -7,6 +7,7 @@ import geotrellis.raster.mapalgebra.local._
 import geotrellis.raster.resample.Bilinear
 import geotrellis.spark._
 import geotrellis.spark.io._
+import geotrellis.spark.io.s3._
 import geotrellis.spark.tiling._
 import geotrellis.spark.io.file._
 import geotrellis.vector._
@@ -27,13 +28,24 @@ class DataModel(config: Config) {
   }
 
   val (collectionReader, tileReader, attributeStore) = {
-    val path = config.getString("file.path")
-    val attributeStore = FileAttributeStore(path)
-    (
-      FileCollectionLayerReader(attributeStore),
-      FileValueReader(attributeStore),
-      attributeStore
-    )
+    val path = config.getString("file.path").trim
+    if (path.startsWith("s3://")) {
+      val bucketkey = path.stripPrefix("s3://")
+      val (bucket, key) = bucketkey.splitAt(bucketkey.indexOf("/"))
+      val attributeStore = S3AttributeStore(bucket, key)
+      (
+        S3CollectionLayerReader(attributeStore),
+        new S3ValueReader(attributeStore),
+        attributeStore
+      )
+    } else {
+      val attributeStore = FileAttributeStore(path)
+      (
+        FileCollectionLayerReader(attributeStore),
+        FileValueReader(attributeStore),
+        attributeStore
+      )
+    }
   }
 
   // A map from layer name to that layer's maximum zoom level

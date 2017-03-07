@@ -46,10 +46,10 @@ trait Router extends Directives with AkkaSystem.LoggerExecutor {
       path("breaks")(breaks)
     } ~
     pathEndOrSingleSlash {
-      getFromFile(staticPath + "/index.html")
+      getFromResource(staticPath + "/index.html")
     } ~
     pathPrefix("") {
-      getFromDirectory(staticPath)
+      getFromResourceDirectory(staticPath)
     }
 
   def colors = complete(ColorRampMap.getJson)
