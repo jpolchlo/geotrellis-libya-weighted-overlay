@@ -23,6 +23,9 @@ etl/json/input.json: etl/json/input-template.json
 etl/json/output.json: etl/json/output-template.json
 	@scripts/template.sh etl/json/output.json etl/json/output-template.json
 
+universal:
+	./sbt "project server" universal:packageBin
+
 ingest: ${ETL_ASSEMBLY_JAR} etl/json/input.json etl/json/output.json
 	#rm -r data/catalog/ || true
 	aws s3 rm s3://geotrellis-test/demo/libya/data/catalog/ || true

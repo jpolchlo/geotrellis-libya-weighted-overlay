@@ -1,0 +1,7 @@
+---
+applications:
+- name: libya-weighted-overlay
+  memory: 1G
+  random-route: true
+  path: server/target/universal/libya-weighted-overlay-server-0.1.0.zip
+  buildpack: java-buildpack-offline_new

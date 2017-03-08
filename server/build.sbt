@@ -12,4 +12,6 @@ libraryDependencies ++= Seq(
 fork in Test := false
 parallelExecution in Test := false
 
+enablePlugins(JavaAppPackaging)
+
 Revolver.settings

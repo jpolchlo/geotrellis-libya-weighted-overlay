@@ -12,6 +12,8 @@ import geotrellis.spark.tiling._
 import geotrellis.spark.io.file._
 import geotrellis.vector._
 
+import java.net.URI
+
 class DataModel(config: Config) {
   object CustomAdd extends LocalTileBinaryOp {
     def combine(z1: Int, z2: Int) =
@@ -28,23 +30,27 @@ class DataModel(config: Config) {
   }
 
   val (collectionReader, tileReader, attributeStore) = {
-    val path = config.getString("file.path").trim
-    if (path.startsWith("s3://")) {
-      val bucketkey = path.stripPrefix("s3://")
-      val (bucket, key) = bucketkey.splitAt(bucketkey.indexOf("/"))
-      val attributeStore = S3AttributeStore(bucket, key)
-      (
-        S3CollectionLayerReader(attributeStore),
-        new S3ValueReader(attributeStore),
-        attributeStore
-      )
-    } else {
-      val attributeStore = FileAttributeStore(path)
-      (
-        FileCollectionLayerReader(attributeStore),
-        FileValueReader(attributeStore),
-        attributeStore
-      )
+    val path = config.getString("catalog.raster.uri")
+    val uri = new URI(path)
+    
+    uri.getScheme match {
+      case "file" =>
+        val attributeStore = FileAttributeStore(path)
+        (
+          FileCollectionLayerReader(attributeStore),
+          FileValueReader(attributeStore),
+          attributeStore
+        )
+      case "s3" =>
+        val S3InputFormat.S3UrlRx(id, key, bucket, prefix) = uri.toString
+        val attributeStore = S3AttributeStore(bucket, prefix)
+        (
+          new S3CollectionLayerReader(attributeStore),
+          new S3ValueReader(attributeStore),
+          attributeStore
+        )
+      case _ =>
+        throw new IllegalArgumentException(s"Unsupported raster catalog URI: $path")
     }
   }
 
